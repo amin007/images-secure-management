@@ -1,0 +1,6 @@
+# Ignore folder named in list
+images/
+
+# Ignore files named in list
+i-tatarajah.php
+logout.php
