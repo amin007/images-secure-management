@@ -39,6 +39,8 @@ class File_Upload
 		if($this->check_phpExt())# check function line 7
 		{
 			//echo '<br> lepas ujian check_phpExt() . ';
+			# Checks if db table exists. Creates it if nessesary
+			$this->createNewTable($files);
 		}
 		else
 		{
@@ -47,6 +49,29 @@ class File_Upload
 			$this->obj->error = $this->error;
 			return $this->obj;
 		}
+	}
+#--------------------------------------------------------------------------------------------------
+	# Checks if db table exists. Creates it if nessesary
+	public function createNewTable($files)
+	{
+		if($this->createTable())
+		{# Checks if a htaccess file should be created and creates one if needed
+
+		}
+		else
+		{
+			//echo '<br>2.2 gagal createTable daa ';
+			if($this->error !== NULL){
+				$this->obj->error = $this->error;
+				return $this->obj;
+			} else {
+				// This should never happen, but it's here just in case
+				array_push($this->error, "Unknown error! Failed to load ImageUpload class!");
+				$this->obj->error = $this->error;
+				return $this->obj;
+			}
+		}
+		#
 	}
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
