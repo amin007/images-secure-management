@@ -27,3 +27,32 @@ Check https://www.owasp.org/index.php/Unrestricted_File_Upload
 http://en.wikipedia.org/wiki/Magic_number_%28programming%29#Examples
 * You might want to run "is_uploaded_file" on the $_FILES['my_files']['tmp_name'] as well. See
 http://php.net/manual/en/function.is-uploaded-file.php
+
+
+# step by step please
+## HTML form:
+```html
+<form name="upload" action="upload.php" method="POST" enctype="multipart/form-data">
+	<br>Select image to upload: <input type="file" name="image">
+	<br><input type="submit" name="upload" value="upload">
+</form>
+```
+## PHP file:
+```php
+<?php
+$uploaddir = 'uploads/';
+
+$uploadfile = $uploaddir . basename($_FILES['image']['name']);
+
+if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile))
+{
+	echo "Image succesfully uploaded.";
+}
+else
+{
+	echo "Image uploading failed.";
+}
+?>
+```
+
+# First problem: File types
