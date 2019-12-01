@@ -28,9 +28,8 @@ http://en.wikipedia.org/wiki/Magic_number_%28programming%29#Examples
 * You might want to run "is_uploaded_file" on the $_FILES['my_files']['tmp_name'] as well. See
 http://php.net/manual/en/function.is-uploaded-file.php
 
-
-# step by step please ___
-
+___
+# step by step please
 ## HTML form:
 ```html
 <form name="upload" action="upload.php" method="POST" enctype="multipart/form-data">
@@ -55,7 +54,6 @@ else
 }
 ?>
 ```
-
 ___
 # First problem: File types
 Attackers don't have to use the form on your website to upload files to your server. POST requests can be intercepted in a number of ways. Think about browser addons, proxies, Perl scripts. No matter how hard we try, we can't prevent an attacker from trying to upload something (s)he isn't supposed to. So all of our security has to be done serverside.
