@@ -29,7 +29,7 @@ http://en.wikipedia.org/wiki/Magic_number_%28programming%29#Examples
 http://php.net/manual/en/function.is-uploaded-file.php
 
 
-# step by step please___
+# step by step please ___
 
 ## HTML form:
 ```html
