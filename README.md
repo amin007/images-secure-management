@@ -178,7 +178,7 @@ if(!empty($_POST['upload']) && !empty($_FILES['image']) && $_FILES['image']['err
 	function tempnam_sfx($path, $suffix)
 	{
 		do {
-			$file = $path."/".mt_rand().$suffix;
+			$file = $path . '/' . mt_rand() . $suffix;
 			$fp = @fopen($file, 'x');
 		} while(!$fp);
 
