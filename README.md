@@ -14,12 +14,12 @@ how to prevent hackers from entering our website
 * Change the image name. Upload to a sub-directory not root directory.
 
 ## Also:
-* Re-process the image using GD (or Imagick) and save the processed image. All others are just fun boring for hackers"
-* As rr pointed out, use move_uploaded_file() for any upload"
-* By the way, you'd want to be very restrictive about your upload folder. Those places are one of the dark corners where many exploits
-happen. This is valid for any type of upload and any programming
-language/server. Check
-https://www.owasp.org/index.php/Unrestricted_File_Upload
+* Re-process the image using GD (or Imagick) and save the processed image. All others are just fun boring for hackers.
+* As rr pointed out, use move_uploaded_file() for any upload.
+* By the way, you'd want to be very restrictive about your upload folder.
+Those places are one of the dark corners where many exploits happen.
+This is valid for any type of upload and any programming language/server.
+Check https://www.owasp.org/index.php/Unrestricted_File_Upload
 * Level 1: Check the extension (extension file ends with)
 * Level 2: Check the MIME type ($file_info = getimagesize($_FILES['image_file']; $file_mime = $file_info['mime'];)
 * Level 3: Read first 100 bytes and check if they have any bytes in the following range: ASCII 0-8, 12-31 (decimal).
