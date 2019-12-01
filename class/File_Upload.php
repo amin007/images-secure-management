@@ -49,6 +49,7 @@ class File_Upload
 			$this->obj->error = $this->error;
 			return $this->obj;
 		}
+		# endif $this->check_phpExt()
 	}
 #--------------------------------------------------------------------------------------------------
 	# Checks if db table exists. Creates it if nessesary
