@@ -30,6 +30,8 @@ http://php.net/manual/en/function.is-uploaded-file.php
 
 
 # step by step please
+
+___
 ## HTML form:
 ```html
 <form name="upload" action="upload.php" method="POST" enctype="multipart/form-data">
@@ -55,4 +57,31 @@ else
 ?>
 ```
 
+___
 # First problem: File types
+Attackers don't have to use the form on your website to upload files to your server. POST requests can be intercepted in a number of ways. Think about browser addons, proxies, Perl scripts. No matter how hard we try, we can't prevent an attacker from trying to upload something (s)he isn't supposed to. So all of our security has to be done serverside.
+
+The first problem is file types. In the script above an attacker could upload anything (s)he wants, like a php script for example, and follow a direct link to execute it. So to prevent this, we implement Content-type verification:
+
+```php
+<?php
+if($_FILES['image']['type'] != "image/png")
+{
+	echo "Only PNG images are allowed!";
+	exit;
+}
+
+$uploaddir = 'uploads/';
+$uploadfile = $uploaddir . basename($_FILES['image']['name']);
+
+if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile))
+{
+	echo "Image succesfully uploaded.";
+}
+else
+{
+	echo "Image uploading failed.";
+}
+?>
+```
+___
