@@ -55,6 +55,7 @@ class File_Upload
 	# Checks if db table exists. Creates it if nessesary
 	public function createNewTable($files)
 	{
+		//echo '<hr>Name class :' . __METHOD__ . '()<hr>';
 		if($this->createTable())
 		{# Checks if a htaccess file should be created and creates one if needed
 
@@ -72,7 +73,7 @@ class File_Upload
 				return $this->obj;
 			}
 		}
-		#
+		# endif $this->createTable()
 	}
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
