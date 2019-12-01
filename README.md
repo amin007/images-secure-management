@@ -153,7 +153,9 @@ include("language/$lang.php");
 
 In this example we're talking about a multi language website. The sites language is not something considered to be "high risk" information. We try to get the visitors preferred language through a cookie or a GET request and include the required file based on it. Now consider what will happen when the attacker enters the following url:
 
+```
 www.example.com/index.php?lang=../uploads/my_evil_image.jpg
+```
 
 PHP will include the file uploaded by the attacker bypassing the fact that (s)he can't access the file directly and we're back at square one.
 
@@ -356,24 +358,31 @@ To upload a file in PHP you have two methods: PUT and POST. To use the POST meth
 
 Then in you PHP you need get your uploaded file with $_FILES like this:
 
-```php $_FILES['file'] ```
+```php
+$_FILES['file']
+```
 
 Then you need move the file from temp("upload") with move_uploaded_file:
 
-```
+```php
 if (move_uploaded_file($_FILES['file']['tmp_name'], YOUR_PATH))
 {
    // ...
-}```
+}
+```
 
 And after you uploaded the file, you need check the file's extension. The best way to do this is using pathinfo like this:
 
-```$extension = pathinfo($_FILES['file']['tmp_name'], PATHINFO_EXTENSION);```
+```php
+$extension = pathinfo($_FILES['file']['tmp_name'], PATHINFO_EXTENSION);
+```
 
 But the extension is not secure because you can upload a file with extension .jpg but with mimetype text/php and this is a backdoor.
 So, I recommend checking the real mimetype with finfo_open like this:
 
-```$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $_FILES['file']['tmp_name']);```
+```php
+$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $_FILES['file']['tmp_name']);
+```
 
 And don't use $_FILES['file']['type'] because sometimes, depending your browser and client OS,
 you may receive application/octet-stream and this mimetype is not the real mimetype of your uploaded file.
