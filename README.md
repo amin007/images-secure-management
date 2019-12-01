@@ -120,4 +120,13 @@ allow from 127.0.0.1
 ```
 Edit: After talking with some other PHP programmers, I highly suggest using a folder outside of the document root, because htaccess isn't always reliable.
 
+We still need the user or any other visitor to be able to view the image though. So we'll use php to retrieve the image for them:
+```php
+<?php
+$uploaddir = 'uploads/';
+$name = $_GET['name'];# Assuming the file name is in the URL for this example
+readfile($uploaddir.$name);
+?>
+```
 ___
+# Second problem: Local file inclusion attacks
