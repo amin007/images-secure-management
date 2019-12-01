@@ -29,9 +29,8 @@ http://en.wikipedia.org/wiki/Magic_number_%28programming%29#Examples
 http://php.net/manual/en/function.is-uploaded-file.php
 
 
-# step by step please
+# step by step please___
 
-___
 ## HTML form:
 ```html
 <form name="upload" action="upload.php" method="POST" enctype="multipart/form-data">
