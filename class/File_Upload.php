@@ -56,7 +56,7 @@ class File_Upload
 	public function createNewTable($files)
 	{
 		//echo '<hr>Name class :' . __METHOD__ . '()<hr>';
-		if($this->createTable())
+		if($this->createTable())# refer function line 80
 		{# Checks if a htaccess file should be created and creates one if needed
 
 		}
@@ -76,6 +76,45 @@ class File_Upload
 		# endif $this->createTable()
 	}
 #--------------------------------------------------------------------------------------------------
+	# Checks if the table already exists. If not, creates one
+	private function createTable()
+	{
+		//echo '<hr>Nama class :' . __METHOD__ . '<hr>';
+		# Check if table already exists
+		$this->stmt = $this->dbh->prepare("SHOW TABLES LIKE '" .  DB_TABLE . "'");
+
+		try{ $this->stmt->execute(); }
+		catch(PDOException $e)
+		{
+			array_push($this->error, $e->getMessage());
+			return false;
+		}
+
+		$cnt = $this->stmt->rowCount();
+
+		if($cnt > 0) { return true; }
+		else
+		{
+			# Create table
+			$this->stmt = $this->dbh->prepare("
+				CREATE TABLE `". DB_TABLE ."` (
+					`id` INT(11) NOT NULL AUTO_INCREMENT,
+					`name` VARCHAR(64) NOT NULL,
+					`original_name` VARCHAR(64) NOT NULL,
+					`mime_type` VARCHAR(20) NOT NULL,
+					PRIMARY KEY (`id`)
+				) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;");
+			try{
+				$this->stmt->execute();
+				return true;
+			}
+			catch(PDOException $e){
+				array_push($this->error, $e->getMessage());
+				return false;
+			}
+		}
+		#
+	}
 #--------------------------------------------------------------------------------------------------
 #==================================================================================================
 }
