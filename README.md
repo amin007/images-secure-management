@@ -266,3 +266,71 @@ ___
 * We've renamed the file name and changed the extension
 * We've saved both the new and original filename in our database
 * We've also saved the MIME type in our database
+
+We still need to be able to display the image to visitors. We simply use the id column of our database to do this:
+
+```php
+<?php
+
+$uploaddir = 'uploads/';
+$id = 1;
+
+# Setup a database connection with PDO
+$dbhost = "localhost";
+$dbuser = "";
+$dbpass = "";
+$dbname = "";
+
+# Set DSN
+$dsn = 'mysql:host='.$dbhost.';dbname='.$dbname;
+
+# Set options
+$options = array(
+	PDO::ATTR_PERSISTENT    => true,
+	PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
+);
+
+try{
+	$db = new PDO($dsn, $dbuser, $dbpass, $options);
+}
+catch(PDOException $e)
+{
+	die("Error!: " . $e->getMessage());
+}
+
+# Setup query
+$query = 'SELECT name, original_name, mime_type FROM uploads WHERE id=:id';
+
+# Prepare query
+$db->prepare($query);
+
+# Bind parameters
+$db->bindParam(':id', $id);
+
+# Execute query
+try {
+	$db->execute();
+	$result = $db->fetch(PDO::FETCH_ASSOC);
+}
+catch(PDOException $e)
+{
+	die("Error!: " . $e->getMessage());
+}
+
+# Get the original filename
+$newfile = $result['original_name'];
+
+# Send headers and file to visitor
+header('Content-Description: File Transfer');
+header('Content-Disposition: attachment; filename=' . basename($newfile));
+header('Expires: 0');
+header('Cache-Control: must-revalidate');
+header('Pragma: public');
+header('Content-Length: ' . filesize($uploaddir . $result['name']));
+header("Content-Type: " . $result['mime_type']);
+readfile($uploaddir . $result['name']);
+?>
+```
+Thanks to this script the visitor will be able to view the image or download it with its original filename. However, (s)he can't access the file on your server directly nor will (s)he be able to fool your server to access the file for him/her as (s)he has no way of knowing which file it is. (S)he can't brute force your upload directory either as it simply doesn't allow anyone to access the directory except the server itself.
+
+And that concludes my secure image upload script.
