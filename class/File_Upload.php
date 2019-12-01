@@ -58,7 +58,7 @@ class File_Upload
 		//echo '<hr>Name class :' . __METHOD__ . '()<hr>';
 		if($this->createTable())# refer function line 80
 		{# Checks if a htaccess file should be created and creates one if needed
-
+			$this->createNewHtaccess($files);
 		}
 		else
 		{
@@ -114,6 +114,23 @@ class File_Upload
 			}
 		}
 		#
+	}
+#--------------------------------------------------------------------------------------------------
+	# Checks if a htaccess file should be created and creates one if needed
+	public function createNewHtaccess($files)
+	{
+		//echo '<hr>Nama class :' . __METHOD__ . '<hr>';
+		if($this->htaccess)
+		{
+			if(!$this->createHtaccess()){
+				array_push($this->error, "Unable to create htaccess file.");
+				$this->obj->error = $this->error;
+				return $this->obj;
+			}
+		}
+
+		# Re-arranges the $_FILES array
+		$files = $this->reArrayFiles($files);
 	}
 #--------------------------------------------------------------------------------------------------
 #==================================================================================================
