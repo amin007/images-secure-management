@@ -334,3 +334,52 @@ readfile($uploaddir . $result['name']);
 Thanks to this script the visitor will be able to view the image or download it with its original filename. However, (s)he can't access the file on your server directly nor will (s)he be able to fool your server to access the file for him/her as (s)he has no way of knowing which file it is. (S)he can't brute force your upload directory either as it simply doesn't allow anyone to access the directory except the server itself.
 
 And that concludes my secure image upload script.
+
+___
+# New concept
+
+To upload files in PHP is easy and secure. I would recommend learning about:
+
+* pathinfo - Returns information about a file path
+* move_uploaded_file - Moves an uploaded file to a new location
+* copy - Copies a file
+* finfo_open - Creates a new fileinfo resource
+
+To upload a file in PHP you have two methods: PUT and POST. To use the POST method with HTML you need to enable enctype on your form like this:
+
+```html
+<form action="" method="post" enctype="multipart/form-data">
+	<br><input type="file" name="file">
+	<br><input type="submit" value="Upload">
+</form>
+```
+
+Then in you PHP you need get your uploaded file with $_FILES like this:
+
+```php $_FILES['file'] ```
+
+Then you need move the file from temp("upload") with move_uploaded_file:
+
+```
+if (move_uploaded_file($_FILES['file']['tmp_name'], YOUR_PATH))
+{
+   // ...
+}```
+
+And after you uploaded the file, you need check the file's extension. The best way to do this is using pathinfo like this:
+
+```$extension = pathinfo($_FILES['file']['tmp_name'], PATHINFO_EXTENSION);```
+
+But the extension is not secure because you can upload a file with extension .jpg but with mimetype text/php and this is a backdoor.
+So, I recommend checking the real mimetype with finfo_open like this:
+
+```$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $_FILES['file']['tmp_name']);```
+
+And don't use $_FILES['file']['type'] because sometimes, depending your browser and client OS,
+you may receive application/octet-stream and this mimetype is not the real mimetype of your uploaded file.
+
+I think you can upload files securely with this scenario.
+
+Sorry for my English, bye!
+
+___
