@@ -159,7 +159,7 @@ PHP will include the file uploaded by the attacker bypassing the fact that (s)he
 
 The solution to this problem is to make sure the user doesn't know the filename on the server. Instead, we'll change the file name and even the extension using a database to keep track of it:
 
-``sql
+```sql
 CREATE TABLE `uploads` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(64) NOT NULL,
