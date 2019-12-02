@@ -284,7 +284,15 @@ class File_Upload
 	}
 #--------------------------------------------------------------------------------------------------
 	# Inserts the file data into the db
-	private function insertDatabase00($uploadfile,$file)
+	private function insertDatabase01($uploadfile,$file)
+	{
+		$sql = new \Aplikasi\Kitab\DB_Sql;
+		$result = $sql->insertDatabase01($uploadfile,$file,$this->mtype);
+
+		return $result;
+	}
+#--------------------------------------------------------------------------------------------------
+	private function insertDatabaseOld($uploadfile,$file)
 	{
 		$this->stmt = $this->dbh->prepare("INSERT INTO `" . DB_TABLE
 		. "` (name, original_name, mime_type) VALUES (:name, :oriname, :mime)");
@@ -303,15 +311,6 @@ class File_Upload
 		array_push($this->ids, $this->dbh->lastInsertId());
 		array_push($this->info, 'File: ' . $file['name'] . ' was succesfully uploaded!');
 		#
-	}
-#--------------------------------------------------------------------------------------------------
-	# Inserts the file data into the db
-	private function insertDatabase01($uploadfile,$file)
-	{
-		$sql = new \Aplikasi\Kitab\DB_Sql;
-		$result = $sql->insertDatabase01($uploadfile,$file,$this->mtype);
-
-		return $result;
 	}
 #--------------------------------------------------------------------------------------------------
 #==================================================================================================
