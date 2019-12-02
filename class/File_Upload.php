@@ -47,6 +47,8 @@ class File_Upload
 	public function uploadImages($files)
 	{
 		//echo '<hr>Name class :' . __METHOD__ . '()<hr>';
+		# Creating default object from empty value
+		$this->obj = new \stdClass();
 		# Checks if the required PHP extension(s) are loaded
 		if($this->check_phpExt())# check function line 7
 		{
