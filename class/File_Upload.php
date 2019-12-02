@@ -163,6 +163,32 @@ class File_Upload
 		finfo_close( $finfo );
 	}
 #--------------------------------------------------------------------------------------------------
+	# Checks if the image isn't to large
+	private function check_img_size($tmpname)
+	{
+		$size_conf = substr(F_SIZE, -1);
+		$max_size = (int)substr(F_SIZE, 0, -1);
+
+		switch($size_conf)
+		{
+			case 'k':
+			case 'K':
+				$max_size *= 1024;
+				break;
+			case 'm':
+			case 'M':
+				$max_size *= 1024;
+				$max_size *= 1024;
+				break;
+			default:
+				$max_size = 1024000;
+		}
+
+		if(filesize($tmpname) > $max_size){ return false; }
+		else { return true; }
+		#
+	}
+#--------------------------------------------------------------------------------------------------
 	# loop array files 01
 	private function loopArrayFiles01($files)
 	{# refer line 134
@@ -174,7 +200,7 @@ class File_Upload
 			{# Checks the true MIME type of the file
 				if($this->check_img_mime($file['tmp_name'])){# refer line 156
 				# Checks the size of the the image
-					if($this->check_img_size($file['tmp_name'])){
+					if($this->check_img_size($file['tmp_name'])){# refer line 167
 					# Creates a file in the upload directory with a random name
 						$uploadfile = $this->tempnam_sfx($this->folder, ".tmp");
 
