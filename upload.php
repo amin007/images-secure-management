@@ -9,6 +9,8 @@ require 'class/File_Upload.php';
 $img = new \Aplikasi\Kitab\File_Upload;
 $result = $img->uploadImages($_FILES['image']);
 
+echo '<hr><pre>$result:'; print_r($result); echo '</pre><hr>';
+
 if(!empty($result->info))
 {
     foreach($result->info as $infoMsg)
