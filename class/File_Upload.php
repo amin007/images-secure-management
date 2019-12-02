@@ -132,11 +132,12 @@ class File_Upload
 		$this->loopArrayFiles01($files);# refer line 206
 		# Checks if the error array is empty
 		if(isset($this->error)):
-			//$this->obj = new \stdClass();
 			$this->errorArray();
-			echo '<hr><pre>'; print_r($this->obj); echo '</pre><hr>';
+			//echo '<hr><pre>'; print_r($this->obj); echo '</pre><hr>';
 		else:
-			echo '<br> $this->error not exit <hr>';
+			//echo '<br> $this->error not exit <hr>';
+			$this->obj->error = '$this->error not exit';
+			return $this->obj;
 		endif;
 		#
 	}
