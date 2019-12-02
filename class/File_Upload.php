@@ -127,6 +127,17 @@ class File_Upload
 		# Re-arranges the $_FILES array
 		$files = $this->reArrayFiles($files);# refer line 137
 		$this->loopArrayFiles01($files);# refer line 206
+		# Checks if the error array is empty
+		if(isset($this->error)):
+			//echo '<hr><pre>'; print_r($this->error); echo '</pre><hr>';
+			if (empty($this->error))
+				echo '<br> $this->error is empty <br>';
+			else
+				echo '<br> $this->error not empty <br>';
+		else:
+			echo '<br> $this->error not exit <hr>';
+		endif;
+		#
 	}
 #--------------------------------------------------------------------------------------------------
 	# Re-arranges the $_FILES array
@@ -145,6 +156,24 @@ class File_Upload
 		}
 
 		return $file_ary;
+	}
+#--------------------------------------------------------------------------------------------------
+	private function errorArray()
+	{
+		foreach ($this->error as $key => $value) {
+			if (empty($value))
+			   unset($this->error[$key]);
+		}
+		if (empty($this->error)){
+			$this->obj->info = $this->info;
+			$this->obj->ids = $this->ids;
+			return $this->obj;
+		} else {
+			$this->error = array_unique($this->error);
+			$this->obj->error = $this->error;
+			return $this->obj;
+		}
+		#
 	}
 #--------------------------------------------------------------------------------------------------
 	# Checks the true mime type of the given file
@@ -211,6 +240,8 @@ class File_Upload
 					# Creates a file in the upload directory with a random name
 						# refer line 193 for $this->tempnam_sfx()
 						$uploadfile = $this->tempnam_sfx($this->folder, ".tmp");
+						array_push($this->info, 'file: ' . $file['name']
+							. ' test here');
 /*
 						# Moves the image to the created file
 						if (move_uploaded_file($file['tmp_name'], $uploadfile))
