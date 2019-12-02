@@ -60,7 +60,7 @@ class DB_Sql
 		$bindArray = array(
 			':name' => basename($uploadfile),
 			':oriname' => basename($file['name']),
-			':mime', $mtype
+			':mime' => $mtype
 		);
 		list($lastInsertId,$meta) = $this->db->insertAll($sql,$bindArray);
 
