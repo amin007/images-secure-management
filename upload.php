@@ -9,7 +9,7 @@ require 'class/File_Upload.php';
 $img = new \Aplikasi\Kitab\File_Upload;
 $result = $img->uploadImages($_FILES['image']);
 
-echo '<hr><pre>$result:'; print_r($result); echo '</pre><hr>';
+//echo '<hr><pre>$result:'; print_r($result); echo '</pre><hr>';
 
 if(!empty($result->info))
 {
@@ -19,10 +19,9 @@ if(!empty($result->info))
     }
 }
 
-echo 'Your images can be viewed here:<br><br>';
-
 if(!empty($result->ids))
 {
+	echo 'Your images can be viewed here:<br><br>';
     foreach($result->ids as $id)
 	{
         echo '<br>image.php?'. $id;
