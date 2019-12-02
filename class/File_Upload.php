@@ -131,7 +131,7 @@ class File_Upload
 
 		# Re-arranges the $_FILES array
 		$files = $this->reArrayFiles($files);# refer line 137
-
+		$this->loopArrayFiles01($files);# refer line 156
 	}
 #--------------------------------------------------------------------------------------------------
 	# Re-arranges the $_FILES array
@@ -150,6 +150,67 @@ class File_Upload
 		}
 
 		return $file_ary;
+	}
+#--------------------------------------------------------------------------------------------------
+	# loop array files 01
+	private function loopArrayFiles01($files)
+	{
+		foreach($files as $file)
+		{
+		# Checks if $file['tmp_name'] is empty. This occurs when a file is bigger than
+		# allowed by the 'post_max_size' and/or 'upload_max_filesize' settings in php.ini
+			if(!empty($file['tmp_name']))
+			{# Checks the true MIME type of the file
+				if($this->check_img_mime($file['tmp_name'])){
+				# Checks the size of the the image
+					if($this->check_img_size($file['tmp_name'])){
+					# Creates a file in the upload directory with a random name
+						$uploadfile = $this->tempnam_sfx($this->folder, ".tmp");
+
+						# Moves the image to the created file
+						if (move_uploaded_file($file['tmp_name'], $uploadfile)) {
+						# Inserts the file data into the db
+						$this->stmt = $this->dbh->prepare("INSERT INTO ". DB_TABLE ." (name, original_name, mime_type) VALUES (:name, :oriname, :mime)");
+
+						$this->bind(':name', basename($uploadfile));
+						$this->bind(':oriname', basename($file['name']));
+						$this->bind(':mime', $this->mtype);
+
+						try{ $this->stmt->execute(); }
+						catch(PDOException $e){
+							array_push($this->error, $e->getMessage());
+							$this->obj->error = $this->error;
+							return $this->obj;
+						}
+
+						array_push($this->ids, $this->dbh->lastInsertId());
+						array_push($this->info, "File: ". $file['name'] ." was succesfully uploaded!");
+
+						continue;
+						}
+						else
+						{
+							unlink($file['tmp_name']);
+							array_push($this->info, "Unable to move file: ". $file['name'] ." to target folder. The file is removed!");
+						}# end move_uploaded_file()
+					}
+					else
+					{
+						array_push($this->info, "File: ". $file['name'] ." exceeds the maximum file size of: ". F_SIZE ."B. The file is removed!");
+					}# end $this->check_img_size()
+				}
+				else
+				{
+					unlink($file['tmp_name']);
+					array_push($this->info, "File: ". $file['name'] ." is not an image. The file is removed!");
+				}# end $this->check_img_mime()
+			}
+			else
+			{
+				array_push($this->info, "File: ". $file['name'] ." exceeds the maximum file size that this server allowes to be uploaded!");
+			}
+		}# end # Re-arranges the $_FILES array
+		#
 	}
 #--------------------------------------------------------------------------------------------------
 #==================================================================================================
