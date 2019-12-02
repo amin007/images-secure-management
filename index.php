@@ -1,6 +1,6 @@
 <?php
 #include class
-require 'i-tatarajah.php';
+require 'config.php';
 require 'class/DB_PDO.php';
 require 'class/DB_Sql.php';
 require 'class/File_Upload.php';
