@@ -254,7 +254,7 @@ class File_Upload
 	}
 #--------------------------------------------------------------------------------------------------
 	# Inserts the file data into the db
-	private function insertDatabase($uploadfile,$file)
+	private function insertDatabase00($uploadfile,$file)
 	{
 		$this->stmt = $this->dbh->prepare("INSERT INTO `" . DB_TABLE
 		. "` (name, original_name, mime_type) VALUES (:name, :oriname, :mime)");
@@ -271,7 +271,7 @@ class File_Upload
 		}
 
 		array_push($this->ids, $this->dbh->lastInsertId());
-		array_push($this->info, "File: ". $file['name'] ." was succesfully uploaded!");
+		array_push($this->info, 'File: ' . $file['name'] . ' was succesfully uploaded!');
 		#
 	}
 #--------------------------------------------------------------------------------------------------
