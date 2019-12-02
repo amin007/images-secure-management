@@ -251,7 +251,8 @@ class File_Upload
 							# Inserts the file data into the db
 							list($lastInsertId, $meta) = $this->insertDatabase01($uploadfile,$file);
 							array_push($this->ids, $lastInsertId);
-							array_push($this->info, 'File: ' . $file['name'] . ' was succesfully uploaded!');
+							array_push($this->info, 'File: ' . $file['name'] . ' was succesfully'
+							. ' uploaded!');
 							continue;
 						}
 						else
