@@ -4,6 +4,18 @@ class File_Upload
 {
 #==================================================================================================
 #--------------------------------------------------------------------------------------------------
+	# set private variables in this class
+	private $error = array();
+	private $info = array();
+	private $ids = array();
+	private $obj;
+
+	private $mtype;
+
+	private $folder = F_PATH;
+	private $htaccess = H_FILE;
+	private $f_size = F_SIZE;
+#--------------------------------------------------------------------------------------------------
 	# Checks if required PHP extensions are loaded. Tries to load them if not
 	private function check_phpExt()
 	{
