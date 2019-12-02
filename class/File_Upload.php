@@ -189,6 +189,19 @@ class File_Upload
 		#
 	}
 #--------------------------------------------------------------------------------------------------
+	# Creates a file with a random name
+	private function tempnam_sfx($path, $suffix)
+	{
+		do {
+			$file = $path."/".mt_rand().$suffix;
+			$fp = @fopen($file, 'x');
+		}
+		while(!$fp);
+
+		fclose($fp);
+		return $file;
+	}
+#--------------------------------------------------------------------------------------------------
 	# loop array files 01
 	private function loopArrayFiles01($files)
 	{# refer line 134
@@ -202,6 +215,7 @@ class File_Upload
 				# Checks the size of the the image
 					if($this->check_img_size($file['tmp_name'])){# refer line 167
 					# Creates a file in the upload directory with a random name
+						# refer line 193 for $this->tempnam_sfx()
 						$uploadfile = $this->tempnam_sfx($this->folder, ".tmp");
 
 						# Moves the image to the created file
