@@ -80,7 +80,7 @@ class DB_Pdo extends \PDO
 	public function rowCount($sql, $array = array(), $fetchMode = \PDO::FETCH_ASSOC)
 	{
 		//echo '<hr>Name class :' . __METHOD__ . '()<hr>';
-		//echo '<hr><pre>'; print_r($sql) . '</pre><hr>';
+		//echo '<hr><pre>'; print_r($sql); echo '</pre><hr>';
 		$sth = $this->prepare($sql);
 		foreach ($array as $key => $value)
 		{
