@@ -94,6 +94,12 @@ class File_Upload
 		//echo '<hr>Nama class :' . __METHOD__ . '<hr>';
 		# Check if table already exists
 		$sql = new \Aplikasi\Kitab\DB_Sql;
+		/*# debug only
+		$sql01 = $sql->showSql(0);
+		$sql02 = $sql->showSql(1);
+		echo '<pre>'; print_r($sql01); echo '<hr>';
+		print_r($sql02); echo '</pre>';*/
+
 		list($data,$count) = $sql->showTables();
 
 		if($count > 0) { return true; }
