@@ -53,6 +53,7 @@ class File_Upload
 			//echo '<br> lepas ujian check_phpExt() . ';
 			# Checks if db table exists. Creates it if nessesary
 			$this->createNewTable($files);
+			return $this->obj;
 		}
 		else
 		{
@@ -164,15 +165,13 @@ class File_Upload
 			   unset($this->error[$key]);
 		}
 		if (empty($this->error)){
-			//$this->obj->info = $this->info;
-			//$this->obj->ids = $this->ids;
-			$this->obj['info'] = $this->info;
-			$this->obj['ids'] = $this->ids;
+			$this->obj->info = $this->info;
+			$this->obj->ids = $this->ids;
 			return $this->obj;
 		} else {
 			$this->error = array_unique($this->error);
-			//$this->obj->error = $this->error;
-			$this->obj['error'] = $this->error;
+			$this->obj->error = $this->error;
+			//$this->obj['error'] = $this->error;
 			return $this->obj;
 		}
 		#
