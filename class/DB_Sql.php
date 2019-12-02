@@ -10,6 +10,21 @@ class DB_Sql
 		//$this->db = new \Aplikasi\Kitab\DB_Mysqli(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
 	}
 #--------------------------------------------------------------------------------------------------
+	# show sql only without run to database
+	function showSql($key = 0)
+	{
+		$sql[0] = 'SHOW TABLES LIKE "' . DB_TABLE . '"';
+		$sql[1] = " CREATE TABLE `" . DB_TABLE . "` (\r"
+		. " `id` INT(11) NOT NULL AUTO_INCREMENT,\r"
+		. " `name` VARCHAR(64) NOT NULL,\r"
+		. " `original_name` VARCHAR(64) NOT NULL,\r"
+		. " `mime_type` VARCHAR(20) NOT NULL,\r"
+		. " PRIMARY KEY(`id`)\r"
+		. " ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;";
+
+		return $sql[$key];
+	}
+#--------------------------------------------------------------------------------------------------
 	# show table
 	function showTables()
 	{
@@ -24,7 +39,7 @@ class DB_Sql
 	# create table
 	function createTable()
 	{
-		$sql = " CREATE TABLE `' . DB_TABLE . '` (\r"
+		$sql = " CREATE TABLE `" . DB_TABLE . "` (\r"
 		. " `id` INT(11) NOT NULL AUTO_INCREMENT,\r"
 		. " `name` VARCHAR(64) NOT NULL,\r"
 		. " `original_name` VARCHAR(64) NOT NULL,\r"
