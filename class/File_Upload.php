@@ -228,7 +228,7 @@ class File_Upload
 					# Creates a file in the upload directory with a random name
 						# refer line 193 for $this->tempnam_sfx()
 						$uploadfile = $this->tempnam_sfx($this->folder, ".tmp");
-
+/*
 						# Moves the image to the created file
 						if (move_uploaded_file($file['tmp_name'], $uploadfile))
 						{
@@ -242,6 +242,7 @@ class File_Upload
 							array_push($this->info, 'Unable to move file: ' . $file['name']
 							. ' to target folder. The file is removed!');
 						}# end move_uploaded_file()
+*/
 					}
 					else
 					{
