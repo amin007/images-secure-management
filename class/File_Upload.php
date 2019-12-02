@@ -313,5 +313,14 @@ class File_Upload
 		#
 	}
 #--------------------------------------------------------------------------------------------------
+	# Inserts the file data into the db
+	private function insertDatabase01($uploadfile,$file)
+	{
+		$sql = new \Aplikasi\Kitab\DB_Sql;
+		$result = $sql->insertDatabase01($uploadfile,$file,$this->mtype);
+
+		return $result;
+	}
+#--------------------------------------------------------------------------------------------------
 #==================================================================================================
 }
