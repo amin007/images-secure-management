@@ -244,7 +244,7 @@ class File_Upload
 					# Creates a file in the upload directory with a random name
 						# refer line 193 for $this->tempnam_sfx()
 						$uploadfile = $this->tempnam_sfx($this->folder, ".tmp");
-						array_push($this->info, 'file: ' . $file['name'] . ' test here');
+						//array_push($this->info, 'file: ' . $file['name'] . ' test here');
 
 						# Moves the image to the created file
 						if (move_uploaded_file($file['tmp_name'], $uploadfile))
