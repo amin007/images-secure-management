@@ -20,7 +20,7 @@ elseif(isset($_GET['delId'])):
 //elseif():
 else:
 	# for upload file
-	$howMany = 1; # choose how much
+	$howMany = 2; # choose how much
 	viewUploadFile($howMany);
 
 	# for list Image File in database
