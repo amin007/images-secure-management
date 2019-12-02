@@ -298,7 +298,7 @@ class DB_Pdo extends \PDO
 		\Aplikasi\Kitab\DB_Pdo::checkBind($sth,$sql,$array);
 		$sth->execute($array);
 		# dapatkan lastInsertId
-		$id = $sth->lastInsertId;
+		$id = $sth->lastInsertId();
 		$meta = null;
 		# semak error jika ada
 		$problem = $sth->errorInfo(); # semak jika ada error
