@@ -131,7 +131,7 @@ class File_Upload
 
 		# Re-arranges the $_FILES array
 		$files = $this->reArrayFiles($files);# refer line 137
-		$this->loopArrayFiles01($files);# refer line 156
+		$this->loopArrayFiles01($files);# refer line 206
 	}
 #--------------------------------------------------------------------------------------------------
 	# Re-arranges the $_FILES array
@@ -203,11 +203,10 @@ class File_Upload
 	}
 #--------------------------------------------------------------------------------------------------
 	# loop array files 01
-	private function loopArrayFiles01($files)
-	{# refer line 134
+	private function loopArrayFiles01($files)# refer line 134
+	{
 		foreach($files as $file)
-		{
-		# Checks if $file['tmp_name'] is empty. This occurs when a file is bigger than
+		{# Checks if $file['tmp_name'] is empty. This occurs when a file is bigger than
 		# allowed by the 'post_max_size' and/or 'upload_max_filesize' settings in php.ini
 			if(!empty($file['tmp_name']))
 			{# Checks the true MIME type of the file
@@ -219,7 +218,8 @@ class File_Upload
 						$uploadfile = $this->tempnam_sfx($this->folder, ".tmp");
 
 						# Moves the image to the created file
-						if (move_uploaded_file($file['tmp_name'], $uploadfile)) {
+						if (move_uploaded_file($file['tmp_name'], $uploadfile))
+						{
 							# Inserts the file data into the db
 							$this->insertDatabase($uploadfile,$file);
 							continue;
@@ -227,23 +227,27 @@ class File_Upload
 						else
 						{
 							unlink($file['tmp_name']);
-							array_push($this->info, "Unable to move file: ". $file['name'] ." to target folder. The file is removed!");
+							array_push($this->info, 'Unable to move file: ' . $file['name']
+							. ' to target folder. The file is removed!');
 						}# end move_uploaded_file()
 					}
 					else
 					{
-						array_push($this->info, "File: ". $file['name'] ." exceeds the maximum file size of: ". F_SIZE ."B. The file is removed!");
+						array_push($this->info, 'File: ' . $file['name'] . ' exceeds the maximum'
+						. ' file size of: ' . F_SIZE . 'B. The file is removed!');
 					}# end $this->check_img_size()
 				}
 				else
 				{
 					unlink($file['tmp_name']);
-					array_push($this->info, "File: ". $file['name'] ." is not an image. The file is removed!");
+					array_push($this->info, 'File: ' . $file['name'] . ' is not an image.'
+					. ' The file is removed!');
 				}# end $this->check_img_mime()
 			}
 			else
 			{
-				array_push($this->info, "File: ". $file['name'] ." exceeds the maximum file size that this server allowes to be uploaded!");
+				array_push($this->info, 'File: ' . $file['name'] . ' exceeds the maximum file'
+				. ' size that this server allowes to be uploaded!');
 			}
 		}# end # Re-arranges the $_FILES array
 		#
