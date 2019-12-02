@@ -152,16 +152,27 @@ class File_Upload
 		return $file_ary;
 	}
 #--------------------------------------------------------------------------------------------------
+	# Checks the true mime type of the given file
+	private function check_img_mime($tmpname)
+	{
+		$finfo = finfo_open( FILEINFO_MIME_TYPE );
+		$mtype = finfo_file( $finfo, $tmpname );
+		$this->mtype = $mtype;
+		if(strpos($mtype, 'image/') === 0){ return true; }
+		else { return false; }
+		finfo_close( $finfo );
+	}
+#--------------------------------------------------------------------------------------------------
 	# loop array files 01
 	private function loopArrayFiles01($files)
-	{
+	{# refer line 134
 		foreach($files as $file)
 		{
 		# Checks if $file['tmp_name'] is empty. This occurs when a file is bigger than
 		# allowed by the 'post_max_size' and/or 'upload_max_filesize' settings in php.ini
 			if(!empty($file['tmp_name']))
 			{# Checks the true MIME type of the file
-				if($this->check_img_mime($file['tmp_name'])){
+				if($this->check_img_mime($file['tmp_name'])){# refer line 156
 				# Checks the size of the the image
 					if($this->check_img_size($file['tmp_name'])){
 					# Creates a file in the upload directory with a random name
