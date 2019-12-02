@@ -169,24 +169,9 @@ class File_Upload
 
 						# Moves the image to the created file
 						if (move_uploaded_file($file['tmp_name'], $uploadfile)) {
-						# Inserts the file data into the db
-						$this->stmt = $this->dbh->prepare("INSERT INTO ". DB_TABLE ." (name, original_name, mime_type) VALUES (:name, :oriname, :mime)");
-
-						$this->bind(':name', basename($uploadfile));
-						$this->bind(':oriname', basename($file['name']));
-						$this->bind(':mime', $this->mtype);
-
-						try{ $this->stmt->execute(); }
-						catch(PDOException $e){
-							array_push($this->error, $e->getMessage());
-							$this->obj->error = $this->error;
-							return $this->obj;
-						}
-
-						array_push($this->ids, $this->dbh->lastInsertId());
-						array_push($this->info, "File: ". $file['name'] ." was succesfully uploaded!");
-
-						continue;
+							# Inserts the file data into the db
+							$this->insertDatabase($uploadfile,$file);
+							continue;
 						}
 						else
 						{
@@ -210,6 +195,28 @@ class File_Upload
 				array_push($this->info, "File: ". $file['name'] ." exceeds the maximum file size that this server allowes to be uploaded!");
 			}
 		}# end # Re-arranges the $_FILES array
+		#
+	}
+#--------------------------------------------------------------------------------------------------
+	# Inserts the file data into the db
+	private function insertDatabase($uploadfile,$file)
+	{
+		$this->stmt = $this->dbh->prepare("INSERT INTO `" . DB_TABLE
+		. "` (name, original_name, mime_type) VALUES (:name, :oriname, :mime)");
+
+		$this->bind(':name', basename($uploadfile));
+		$this->bind(':oriname', basename($file['name']));
+		$this->bind(':mime', $this->mtype);
+
+		try{ $this->stmt->execute(); }
+		catch(PDOException $e){
+			array_push($this->error, $e->getMessage());
+			$this->obj->error = $this->error;
+			return $this->obj;
+		}
+
+		array_push($this->ids, $this->dbh->lastInsertId());
+		array_push($this->info, "File: ". $file['name'] ." was succesfully uploaded!");
 		#
 	}
 #--------------------------------------------------------------------------------------------------
