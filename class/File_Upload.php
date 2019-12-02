@@ -93,37 +93,14 @@ class File_Upload
 	{
 		//echo '<hr>Nama class :' . __METHOD__ . '<hr>';
 		# Check if table already exists
-		$this->stmt = $this->dbh->prepare("SHOW TABLES LIKE '" .  DB_TABLE . "'");
+		$sql = new \Aplikasi\Kitab\DB_Sql;
+		list($data,$count) = $sql->showTables();
 
-		try{ $this->stmt->execute(); }
-		catch(PDOException $e)
-		{
-			array_push($this->error, $e->getMessage());
-			return false;
-		}
-
-		$cnt = $this->stmt->rowCount();
-
-		if($cnt > 0) { return true; }
+		if($count > 0) { return true; }
 		else
 		{
 			# Create table
-			$this->stmt = $this->dbh->prepare("
-				CREATE TABLE `". DB_TABLE ."` (
-					`id` INT(11) NOT NULL AUTO_INCREMENT,
-					`name` VARCHAR(64) NOT NULL,
-					`original_name` VARCHAR(64) NOT NULL,
-					`mime_type` VARCHAR(20) NOT NULL,
-					PRIMARY KEY (`id`)
-				) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;");
-			try{
-				$this->stmt->execute();
-				return true;
-			}
-			catch(PDOException $e){
-				array_push($this->error, $e->getMessage());
-				return false;
-			}
+			$sql->createTable();
 		}
 		#
 	}
