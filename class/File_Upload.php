@@ -130,7 +130,26 @@ class File_Upload
 		}
 
 		# Re-arranges the $_FILES array
-		$files = $this->reArrayFiles($files);
+		$files = $this->reArrayFiles($files);# refer line 137
+
+	}
+#--------------------------------------------------------------------------------------------------
+	# Re-arranges the $_FILES array
+	private function reArrayFiles($files)
+	{
+		$file_ary = array();
+		$file_count = count($files['name']);
+		$file_keys = array_keys($files);
+
+		for ($i=0; $i<$file_count; $i++)
+		{
+			foreach ($file_keys as $key)
+			{
+				$file_ary[$i][$key] = $files[$key][$i];
+			}
+		}
+
+		return $file_ary;
 	}
 #--------------------------------------------------------------------------------------------------
 #==================================================================================================
