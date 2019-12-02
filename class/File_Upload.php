@@ -247,18 +247,6 @@ class File_Upload
 
 						# Moves the image to the created file
 						$this->moveFile($uploadfile,$file);
-						if (move_uploaded_file($file['tmp_name'], $uploadfile))
-						{
-							# Inserts the file data into the db
-							$this->insertDatabase($uploadfile,$file);
-							continue;
-						}
-						else
-						{
-							unlink($file['tmp_name']);
-							array_push($this->info, 'Unable to move file: ' . $file['name']
-							. ' to target folder. The file is removed!');
-						}# end move_uploaded_file()
 
 					}
 					else
@@ -280,6 +268,26 @@ class File_Upload
 				. ' size that this server allowes to be uploaded!');
 			}
 		}# end # Re-arranges the $_FILES array
+		#
+	}
+#--------------------------------------------------------------------------------------------------
+	# Moves the image to the created file
+	private function moveFile($uploadfile,$file)
+	{
+		if (move_uploaded_file($file['tmp_name'], $uploadfile))
+		{
+			# Inserts the file data into the db
+			list($lastInsertId, $meta) = $this->insertDatabase01($uploadfile,$file);
+			array_push($this->ids, $lastInsertId);
+			array_push($this->info, 'File: ' . $file['name'] . ' was succesfully uploaded!');
+			continue;
+		}
+		else
+		{
+			unlink($file['tmp_name']);
+			array_push($this->info, 'Unable to move file: ' . $file['name']
+			. ' to target folder. The file is removed!');
+		}# end move_uploaded_file()
 		#
 	}
 #--------------------------------------------------------------------------------------------------
