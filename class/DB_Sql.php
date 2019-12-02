@@ -63,9 +63,8 @@ class DB_Sql
 			':mime', $mtype
 		);
 		list($lastInsertId,$meta) = $this->db->insertAll($sql,$bindArray);
-		$info = 'File: ' . $file['name'] . ' was succesfully uploaded!';
 
-		return array($lastInsertId,$info);
+		return array($lastInsertId,$meta);
 	}
 #--------------------------------------------------------------------------------------------------
 	# list Image from database
